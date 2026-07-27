@@ -1,5 +1,18 @@
 {
   "$schema": "https://www.getbifrost.ai/schema",
+  "client": {
+    "enforce_auth_on_inference": true,
+    "allowed_origins": [
+      "*"
+    ]
+  },
+  "governance": {
+    "auth_config": {
+      "is_enabled": true,
+      "admin_username": "env.BIFROST_ADMIN_USERNAME",
+      "admin_password": "env.BIFROST_ADMIN_PASSWORD"
+    }
+  },
   "config_store": {
     "enabled": true,
     "type": "postgres",
@@ -22,14 +35,6 @@
       "password": "env.PGPASSWORD",
       "db_name": "env.PGDATABASE",
       "ssl_mode": "disable"
-    }
-  },
-  "governance": {
-    "auth_config": {
-      "is_enabled": true,
-      "admin_username": "env.BIFROST_ADMIN_USERNAME",
-      "admin_password": "env.BIFROST_ADMIN_PASSWORD",
-      "disable_auth_on_inference": false
     }
   }
 }
