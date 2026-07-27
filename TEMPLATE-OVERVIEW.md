@@ -30,7 +30,7 @@ Every one of those is a setting, not a limitation. This template sets them.
 
 - **Admin authentication is on**, with credentials generated at deploy time. `governance.auth_config.is_enabled` is the switch; without it the dashboard is public.
 - **The inference routes require a virtual key** via `client.enforce_auth_on_inference`. Worth knowing: the older `disable_auth_on_inference` under `auth_config` is deprecated and silently ignored, so a config that only sets that one leaves `/v1` open while looking closed.
-- **Both stores are in Postgres** — configuration and request logs. That is what makes the service stateless: there is no volume in this template, the container keeps nothing, and a redeploy or a second replica finds the same providers and keys.
+- **Both stores are in Postgres** — configuration and request logs. A redeploy finds the same providers, keys and history; the volume on `/app/data` holds only the rendered config file, because the upstream image declares that mount point.
 - **`config.json` is written at start, not baked in.** Secrets arrive as `env.` references, so no password ends up in an image layer, and upgrading the template actually replaces the file rather than leaving a stale copy on a volume.
 - **The container refuses to start** without a database host or an admin password, rather than coming up in a state that only looks configured.
 - **The image is pinned to an exact release.** Bifrost ships often; a moving tag means a different gateway after every restart.

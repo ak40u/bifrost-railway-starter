@@ -20,8 +20,8 @@ Deploy the upstream image as it ships and you get:
 
 This template fixes all three. Admin credentials are generated and enforced,
 `/v1` requires a virtual key, and both the configuration store and the log store
-are in Postgres — so there is no volume, the container keeps nothing, and you
-can run as many replicas as you like.
+are in Postgres — so providers, keys and history survive a redeploy instead of
+going down with the container.
 
 ## After deploying
 
@@ -64,6 +64,10 @@ stored in Postgres.
 so upgrading this template actually replaces it, and no password is ever written
 into an image layer. Values come in as `env.` references, which is Bifrost's own
 mechanism for keeping secrets out of the file.
+
+The volume on `/app/data` holds that one rendered file and nothing else — the
+upstream image declares the mount point, and everything that matters is in
+Postgres.
 
 Two settings carry the weight:
 
